@@ -14,17 +14,17 @@ from .biometric_data import (
     EncryptedBiometricData,
     BiometricDataManager,
     get_biometric_manager,
-    reset_biometric_manager
+    reset_biometric_manager,
 )
 
 __all__ = [
     "User",
-    "AuthenticationSession", 
+    "AuthenticationSession",
     "FamilyMember",
     "OfflineTransaction",
     "BiometricTemplate",
     "EncryptedBiometricData",
     "BiometricDataManager",
     "get_biometric_manager",
-    "reset_biometric_manager"
+    "reset_biometric_manager",
 ]

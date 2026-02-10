@@ -252,12 +252,6 @@ OfflineTransaction {
 }
 ```
 
-Now I need to use the prework tool to analyze the acceptance criteria before writing the Correctness Properties section:
-
-<function_calls>
-<invoke name="prework">
-<parameter name="featureName">rural-identity-verification
-
 ## Correctness Properties
 
 *A property is a characteristic or behavior that should hold true across all valid executions of a system—essentially, a formal statement about what the system should do. Properties serve as the bridge between human-readable specifications and machine-verifiable correctness guarantees.*
