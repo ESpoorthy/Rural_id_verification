@@ -419,8 +419,8 @@ We welcome contributions! Please see our contributing guidelines for more inform
 ##  Team
 
 RuralGuard AI - Student Innovation Project  
-Sai Spoorthy Eturu
-Katakam Sahithi Rithvika
+- Sai Spoorthy Eturu
+- Katakam Sahithi Rithvika
 
 ##  Contact
 
