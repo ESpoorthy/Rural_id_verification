@@ -64,6 +64,13 @@ document.getElementById('verificationForm').addEventListener('submit', async fun
     setLoading(true);
     updateStep(3);
     
+    // Show progress bar
+    const progressBar = document.getElementById('progressBar');
+    const resultSection = document.getElementById('resultSection');
+    resultSection.style.display = 'block';
+    progressBar.style.display = 'block';
+    document.getElementById('resultContent').style.display = 'none';
+    
     try {
         // Convert images to base64
         const faceBase64 = await fileToBase64(faceImage);
@@ -85,6 +92,10 @@ document.getElementById('verificationForm').addEventListener('submit', async fun
         
         const result = await response.json();
         currentSessionId = result.verification_id;
+        
+        // Hide progress bar and show result
+        progressBar.style.display = 'none';
+        document.getElementById('resultContent').style.display = 'block';
         
         // Display result
         displayResult(result);
@@ -127,17 +138,49 @@ function displayResult(result) {
     
     const statusClass = result.status === 'SUCCESS' ? 'success' : 'failure';
     const statusIcon = result.status === 'SUCCESS' ? '✅' : '❌';
+    const statusText = result.status === 'SUCCESS' ? 'Verification Successful' : 'Verification Failed';
+    
+    // Determine confidence level
+    let confidenceLevel = 'Low';
+    let confidenceColor = '#dc3545';
+    if (result.confidence_score >= 0.85) {
+        confidenceLevel = 'High';
+        confidenceColor = '#28a745';
+    } else if (result.confidence_score >= 0.70) {
+        confidenceLevel = 'Medium';
+        confidenceColor = '#ffc107';
+    }
     
     resultContent.innerHTML = `
-        <div class="result ${statusClass}">
+        <div class="result ${statusClass}" style="animation: slideIn 0.5s ease-out;">
             <div class="result-icon">${statusIcon}</div>
-            <h3>${result.status === 'SUCCESS' ? 'Verification Successful' : 'Verification Failed'}</h3>
-            <p>${result.message}</p>
+            <h3>${statusText}</h3>
+            <p class="result-message">${result.message}</p>
             <div class="result-details">
-                <p><strong>Confidence Score:</strong> ${(result.confidence_score * 100).toFixed(1)}%</p>
-                <p><strong>Method:</strong> ${result.verification_method}</p>
-                <p><strong>Session ID:</strong> ${result.verification_id}</p>
+                <div class="detail-row">
+                    <strong>Confidence Score:</strong> 
+                    <span style="color: ${confidenceColor}; font-weight: bold;">
+                        ${(result.confidence_score * 100).toFixed(1)}% (${confidenceLevel})
+                    </span>
+                </div>
+                <div class="detail-row">
+                    <strong>Method:</strong> ${result.verification_method}
+                </div>
+                <div class="detail-row">
+                    <strong>Session ID:</strong> 
+                    <code>${result.verification_id.substring(0, 8)}...</code>
+                </div>
+                <div class="detail-row">
+                    <strong>Timestamp:</strong> ${new Date(result.timestamp).toLocaleString()}
+                </div>
             </div>
+            ${result.status === 'SUCCESS' ? `
+                <div class="success-actions" style="margin-top: 20px;">
+                    <button onclick="location.reload()" class="action-button">
+                        ✓ Complete & Start New
+                    </button>
+                </div>
+            ` : ''}
         </div>
     `;
     
@@ -146,6 +189,12 @@ function displayResult(result) {
     // Show fallback options if needed
     if (result.fallback_required) {
         document.getElementById('fallbackSection').style.display = 'block';
+        // Scroll to fallback section
+        setTimeout(() => {
+            document.getElementById('fallbackSection').scrollIntoView({ behavior: 'smooth' });
+        }, 500);
+    } else {
+        document.getElementById('fallbackSection').style.display = 'none';
     }
 }
 
@@ -171,12 +220,18 @@ function setLoading(loading) {
     
     if (loading) {
         button.disabled = true;
-        buttonText.style.display = 'none';
+        button.style.opacity = '0.7';
+        buttonText.textContent = 'Verifying...';
         buttonLoader.style.display = 'inline-block';
+        
+        // Add processing animation
+        button.style.animation = 'pulse 1.5s infinite';
     } else {
         button.disabled = false;
-        buttonText.style.display = 'inline';
+        button.style.opacity = '1';
+        buttonText.textContent = 'Verify Identity';
         buttonLoader.style.display = 'none';
+        button.style.animation = 'none';
     }
 }
 
