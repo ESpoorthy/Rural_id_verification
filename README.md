@@ -98,6 +98,151 @@ AI is not just an enhancement—it's essential for solving rural identity verifi
 - **AWS X-Ray**: Distributed tracing for debugging
 - **Amazon SNS**: Notifications for suspicious activities
 
+## 🏗️ AWS Architecture Details
+
+### Amazon Bedrock for AI Explanations
+
+In production, **Amazon Bedrock** powers the intelligent reasoning layer of RuralGuard AI:
+
+**Verification Explanations**: Bedrock's foundation models generate natural language explanations for every verification decision, making the system transparent and auditable. Instead of just returning "approved" or "denied", the system explains why based on similarity scores, liveness detection, and document validation.
+
+**Fraud Pattern Analysis**: Bedrock analyzes verification patterns across regions to identify coordinated fraud attempts. It can detect anomalies like multiple verification attempts from the same device or unusual geographic patterns.
+
+**Adaptive Recommendations**: When verification fails, Bedrock suggests the most appropriate fallback method (PIN, OTP, or in-person verification) based on the failure reason and user context.
+
+**Example Bedrock Integration**:
+```python
+import boto3
+
+bedrock = boto3.client('bedrock-runtime')
+
+def generate_verification_explanation(similarity_score, liveness_confidence, ocr_success):
+    prompt = f"""
+    Analyze this identity verification result and provide a clear explanation:
+    - Facial similarity: {similarity_score:.2%}
+    - Liveness confidence: {liveness_confidence:.2%}
+    - Document extraction: {'Success' if ocr_success else 'Failed'}
+    
+    Provide a 2-3 sentence explanation suitable for rural users.
+    """
+    
+    response = bedrock.invoke_model(
+        modelId='anthropic.claude-v2',
+        body=json.dumps({
+            "prompt": prompt,
+            "max_tokens": 200,
+            "temperature": 0.3
+        })
+    )
+    
+    return response['completion']
+```
+
+### AWS Lambda for Serverless Workflows
+
+**Event-Driven Architecture**: Lambda functions handle verification requests, synchronization, and admin operations without managing servers. This ensures cost-efficiency and automatic scaling.
+
+**Key Lambda Functions**:
+- `verify-identity`: Processes verification requests and coordinates AI services
+- `sync-offline-transactions`: Syncs edge device data when connectivity is restored
+- `fraud-analysis`: Runs periodic fraud detection across all verifications
+- `generate-reports`: Creates admin dashboards and compliance reports
+
+**Benefits**:
+- Pay only for actual verification requests
+- Automatic scaling during peak welfare distribution periods
+- No server maintenance or capacity planning
+- Sub-second response times with provisioned concurrency
+
+### Amazon S3 for Encrypted Artifacts
+
+**Secure Document Storage**: All ID documents and verification artifacts are encrypted at rest using AWS KMS and stored in S3 with strict access controls.
+
+**Storage Architecture**:
+```
+s3://ruralguard-verifications/
+├── documents/
+│   ├── {user-id}/
+│   │   ├── id-card-{timestamp}.jpg.encrypted
+│   │   └── face-image-{timestamp}.jpg.encrypted
+├── audit-logs/
+│   └── {year}/{month}/{day}/
+│       └── verifications-{timestamp}.json
+└── ml-models/
+    └── face-recognition-v2.tar.gz
+```
+
+**Lifecycle Policies**: Documents are automatically moved to S3 Glacier after 90 days and deleted after 7 years per compliance requirements.
+
+### Amazon DynamoDB for State Storage
+
+**High-Performance NoSQL**: DynamoDB stores user profiles, verification sessions, and transaction logs with single-digit millisecond latency.
+
+**Table Design**:
+- `Users`: User profiles with biometric templates (encrypted)
+- `VerificationSessions`: Active and historical verification attempts
+- `AuditLogs`: Immutable audit trail for compliance
+- `FamilyAuthorizations`: Family member access permissions
+
+**Global Tables**: Multi-region replication ensures low latency for rural areas across different geographic regions.
+
+**DynamoDB Streams**: Triggers Lambda functions for real-time fraud detection and analytics.
+
+### Amazon SageMaker for Model Training
+
+**Custom Model Development**: SageMaker trains and deploys specialized models optimized for rural conditions:
+
+**Face Recognition Model**: Fine-tuned on diverse rural populations with varying lighting conditions, ages, and image quality.
+
+**Liveness Detection Model**: Trained to detect presentation attacks using low-quality cameras common in rural areas.
+
+**Document OCR Model**: Specialized for regional ID formats, handwritten text, and damaged documents.
+
+**Training Pipeline**:
+1. Data collection from edge devices (privacy-preserving)
+2. Federated learning aggregation
+3. Model training on SageMaker
+4. A/B testing with shadow deployments
+5. Gradual rollout to edge devices
+
+**Model Monitoring**: SageMaker Model Monitor tracks model performance and detects drift, triggering retraining when accuracy degrades.
+
+### Integration Flow
+
+```
+User Verification Request
+        ↓
+Edge Device (Local AI)
+        ↓
+[If online] → API Gateway → Lambda
+        ↓
+Amazon Bedrock (AI Explanation)
+        ↓
+DynamoDB (Store Result)
+        ↓
+S3 (Archive Documents)
+        ↓
+CloudWatch (Logging)
+        ↓
+SNS (Alerts if fraud detected)
+```
+
+### Cost Optimization
+
+**Edge-First Design**: By processing most verifications locally, AWS costs are minimized. Cloud services are only used for:
+- Synchronization of offline transactions
+- Fraud analysis across multiple verifications
+- Model updates and improvements
+- Admin dashboards and reporting
+
+**Estimated Monthly Cost** (for 100,000 rural beneficiaries):
+- Lambda: $50 (pay-per-request)
+- DynamoDB: $100 (on-demand pricing)
+- S3: $30 (with lifecycle policies)
+- Bedrock: $200 (AI explanations)
+- SageMaker: $150 (model training)
+- **Total: ~$530/month** vs. $10,000+ for traditional infrastructure
+
 ## 🏗️ Architecture Overview
 
 ```

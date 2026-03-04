@@ -151,17 +151,54 @@ function displayResult(result) {
         confidenceColor = '#ffc107';
     }
     
+    // Determine risk level color
+    let riskColor = '#28a745'; // Low = green
+    if (result.risk_level === 'Medium') {
+        riskColor = '#ffc107'; // Medium = yellow
+    } else if (result.risk_level === 'High') {
+        riskColor = '#dc3545'; // High = red
+    }
+    
+    // Build verification timeline HTML
+    let timelineHTML = '<div class="verification-timeline"><h4>Verification Timeline</h4><ul>';
+    result.verification_timeline.forEach((step, index) => {
+        timelineHTML += `<li><span class="timeline-step">${index + 1}.</span> ${step}</li>`;
+    });
+    timelineHTML += '</ul></div>';
+    
     resultContent.innerHTML = `
         <div class="result ${statusClass}" style="animation: slideIn 0.5s ease-out;">
             <div class="result-icon">${statusIcon}</div>
             <h3>${statusText}</h3>
             <p class="result-message">${result.message}</p>
+            
             <div class="result-details">
                 <div class="detail-row">
                     <strong>Confidence Score:</strong> 
                     <span style="color: ${confidenceColor}; font-weight: bold;">
                         ${(result.confidence_score * 100).toFixed(1)}% (${confidenceLevel})
                     </span>
+                </div>
+                <div class="detail-row">
+                    <strong>Fraud Risk Score:</strong> 
+                    <span style="color: ${riskColor}; font-weight: bold;">
+                        ${(result.fraud_risk_score * 100).toFixed(1)}%
+                    </span>
+                </div>
+                <div class="detail-row">
+                    <strong>Risk Level:</strong> 
+                    <span style="color: ${riskColor}; font-weight: bold;">
+                        ${result.risk_level}
+                    </span>
+                </div>
+                <div class="detail-row">
+                    <strong>Similarity Score:</strong> ${(result.similarity_score * 100).toFixed(1)}%
+                </div>
+                <div class="detail-row">
+                    <strong>Liveness Confidence:</strong> ${(result.liveness_confidence * 100).toFixed(1)}%
+                </div>
+                <div class="detail-row">
+                    <strong>OCR Extraction:</strong> ${result.ocr_success ? '✓ Success' : '✗ Failed'}
                 </div>
                 <div class="detail-row">
                     <strong>Method:</strong> ${result.verification_method}
@@ -174,6 +211,15 @@ function displayResult(result) {
                     <strong>Timestamp:</strong> ${new Date(result.timestamp).toLocaleString()}
                 </div>
             </div>
+            
+            <div class="ai-explanation">
+                <h4>🤖 AI Verification Explanation</h4>
+                <p>${result.ai_explanation}</p>
+                <p class="ai-note"><em>Note: In production, Amazon Bedrock would generate more sophisticated explanations based on comprehensive analysis.</em></p>
+            </div>
+            
+            ${timelineHTML}
+            
             ${result.status === 'SUCCESS' ? `
                 <div class="success-actions" style="margin-top: 20px;">
                     <button onclick="location.reload()" class="action-button">
@@ -196,6 +242,9 @@ function displayResult(result) {
     } else {
         document.getElementById('fallbackSection').style.display = 'none';
     }
+    
+    // Load admin stats
+    loadAdminStats();
 }
 
 function showError(message) {
@@ -342,3 +391,26 @@ async function verifyOTP() {
         alert('OTP verification failed: ' + error.message);
     }
 }
+
+// Load admin statistics
+async function loadAdminStats() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/analytics/admin`);
+        const stats = await response.json();
+        
+        const adminPanel = document.getElementById('adminPanel');
+        if (adminPanel) {
+            document.getElementById('totalVerifications').textContent = stats.total_verifications;
+            document.getElementById('approvedVerifications').textContent = stats.approved_verifications;
+            document.getElementById('flaggedVerifications').textContent = stats.flagged_verifications;
+            document.getElementById('avgConfidence').textContent = (stats.average_confidence_score * 100).toFixed(1) + '%';
+            
+            adminPanel.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Failed to load admin stats:', error);
+    }
+}
+
+// Load admin stats on page load
+window.addEventListener('load', loadAdminStats);

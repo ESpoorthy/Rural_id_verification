@@ -114,6 +114,30 @@
             <div class="privacy-notice">
                 <p>🔒 <strong>Privacy Protected:</strong> Your biometric data is processed locally on your device and encrypted before transmission. We never store raw biometric images.</p>
             </div>
+
+            <!-- Admin Summary Panel -->
+            <div id="adminPanel" class="admin-panel" style="display: none;">
+                <h3>📊 Prototype Metrics</h3>
+                <div class="admin-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalVerifications">0</div>
+                        <div class="stat-label">Total Verifications</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="approvedVerifications">0</div>
+                        <div class="stat-label">Approved Verifications</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="flaggedVerifications">0</div>
+                        <div class="stat-label">Flagged Verifications</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="avgConfidence">0%</div>
+                        <div class="stat-label">Average Confidence Score</div>
+                    </div>
+                </div>
+                <p class="admin-note">Statistics from current session</p>
+            </div>
         </main>
 
         <!-- Footer -->
