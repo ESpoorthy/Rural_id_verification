@@ -6,7 +6,7 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![AWS](https://img.shields.io/badge/AWS-Serverless-orange.svg)](https://aws.amazon.com/)
 
-## 🌾 Problem Statement
+##  Problem Statement
 
 Rural communities face significant barriers in accessing government welfare benefits due to:
 
@@ -18,7 +18,7 @@ Rural communities face significant barriers in accessing government welfare bene
 
 These challenges result in delayed benefit distribution, increased fraud, and exclusion of legitimate beneficiaries from essential services.
 
-## 💡 Solution Overview
+##  Solution Overview
 
 RuralGuard AI is an **edge-first, AI-powered identity verification platform** that brings secure, accessible authentication to rural welfare systems. Our solution leverages:
 
@@ -40,7 +40,7 @@ RuralGuard AI is an **edge-first, AI-powered identity verification platform** th
 - **Adaptive Fallback**: Intelligent system triggers PIN/OTP when biometric fails
 - **Continuous Learning**: Models improve accuracy through federated learning
 
-## 🤖 Why AI is Required
+##  Why AI is Required
 
 AI is not just an enhancement—it's essential for solving rural identity verification:
 
@@ -74,7 +74,7 @@ AI is not just an enhancement—it's essential for solving rural identity verifi
    - Natural language processing provides voice instructions in local languages
    - AI adapts interface complexity based on user literacy levels
 
-## ☁️ AWS Services Used
+##  AWS Services Used
 
 ### Core AI Services
 - **Amazon Bedrock**: Generative AI for verification reasoning, anomaly detection, and natural language explanations
@@ -98,7 +98,7 @@ AI is not just an enhancement—it's essential for solving rural identity verifi
 - **AWS X-Ray**: Distributed tracing for debugging
 - **Amazon SNS**: Notifications for suspicious activities
 
-## 🏗️ AWS Architecture Details
+##  AWS Architecture Details
 
 ### Amazon Bedrock for AI Explanations
 
@@ -243,7 +243,7 @@ SNS (Alerts if fraud detected)
 - SageMaker: $150 (model training)
 - **Total: ~$530/month** vs. $10,000+ for traditional infrastructure
 
-## 🏗️ Architecture Overview
+##  Architecture Overview
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -286,36 +286,36 @@ See [architecture/system-overview.md](architecture/system-overview.md) for detai
 
 ## ✨ Key Features
 
-### 🔐 Secure Authentication
+###  Secure Authentication
 - Multi-factor biometric verification (face + ID + liveness)
 - AES-256-GCM encryption for all sensitive data
 - Secure key management with AWS KMS
 - Comprehensive audit logging
 
-### 🌐 Offline-First Design
+###  Offline-First Design
 - Local biometric verification without internet
 - Automatic synchronization when connected
 - Resilient to network outages
 - Edge AI model execution
 
-### 👨‍👩‍👧‍👦 Family Authorization
+###  Family Authorization
 - Authorized family members can access benefits on behalf of primary users
 - Consent management and validation
 - Proxy authentication with full audit trails
 
-### 🤖 AI-Powered Intelligence
+###  AI-Powered Intelligence
 - Generative AI reasoning with Amazon Bedrock
 - Adaptive authentication based on context
 - Fraud detection and anomaly identification
 - Natural language explanations
 
-### ♿ Accessibility
+###  Accessibility
 - Voice guidance in local languages
 - Visual aids for illiterate users
 - Simple 5-step verification process
 - Support for users with disabilities
 
-### 📊 Scalability
+###  Scalability
 - Serverless architecture scales automatically
 - Handles millions of rural beneficiaries
 - Cost-effective pay-per-use model
@@ -375,7 +375,7 @@ python -m pytest tests/ -v
 python -m pytest tests/ --cov=rural_identity_verification --cov-report=html
 ```
 
-## 📚 Documentation
+##  Documentation
 
 - [Project Overview](docs/project-overview.md) - Comprehensive project documentation
 - [AI Design](docs/ai-design.md) - AI model architecture and design decisions
@@ -384,13 +384,13 @@ python -m pytest tests/ --cov=rural_identity_verification --cov-report=html
 - [Deployment Guide](infrastructure/deployment_guide.md) - Step-by-step deployment instructions
 - [API Documentation](backend/README.md) - API endpoints and usage
 
-## 🎥 Demo
+##  Demo
 
 - **Demo Video**: [Watch on YouTube](#) *(Coming Soon)*
 - **Live MVP**: [https://ruralguard-ai-demo.aws.com](#) *(Coming Soon)*
 - **Screenshots**: See [demo-assets/screenshots/](demo-assets/screenshots/)
 
-## 🏆 Innovation Highlights
+##  Innovation Highlights
 
 1. **Edge-First AI**: First rural welfare platform with local AI processing
 2. **Privacy by Design**: Zero-knowledge architecture protects beneficiary data
@@ -398,7 +398,7 @@ python -m pytest tests/ --cov=rural_identity_verification --cov-report=html
 4. **Offline Resilience**: Works without internet connectivity
 5. **Inclusive Design**: Accessible to elderly and illiterate populations
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 **Frontend**: HTML5, CSS3, JavaScript (Vanilla)  
 **Backend**: Python, FastAPI, AWS Lambda  
@@ -408,25 +408,25 @@ python -m pytest tests/ --cov=rural_identity_verification --cov-report=html
 **Infrastructure**: AWS CDK, Terraform  
 **Security**: AWS KMS, Cryptography library  
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🤝 Contributing
+##  Contributing
 
 We welcome contributions! Please see our contributing guidelines for more information.
 
-## 👥 Team
+##  Team
 
 RuralGuard AI - Student Innovation Project  
-[Your University Name]  
-[Your Team Members]
+Sai Spoorthy Eturu
+Katakam Sahithi Rithvika
 
-## 📧 Contact
+##  Contact
 
-For questions or support, please contact: [your-email@example.com]
+For questions or support, please contact: saispoorthyeturu6@gmail.com
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - AWS for providing cloud infrastructure and AI services
 - Open source community for libraries and tools
