@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RuralGuard AI - Identity Verification</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <h1>🌾 RuralGuard AI</h1>
+                <p class="tagline">Secure Identity Verification for Rural Communities</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Step Indicator -->
+            <div class="steps">
+                <div class="step active" id="step1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Capture Face</div>
+                </div>
+                <div class="step" id="step2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Upload ID</div>
+                </div>
+                <div class="step" id="step3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Verify</div>
+                </div>
+            </div>
+
+            <!-- Verification Form -->
+            <div class="verification-card">
+                <h2>Identity Verification</h2>
+                <p class="instruction">Please provide your face image and ID document for verification</p>
+
+                <form id="verificationForm">
+                    <!-- Face Image Upload -->
+                    <div class="upload-section">
+                        <label for="faceImage" class="upload-label">
+                            <div class="upload-icon">📸</div>
+                            <div class="upload-text">
+                                <strong>Capture or Upload Face Image</strong>
+                                <span>Click to select or take a photo</span>
+                            </div>
+                        </label>
+                        <input type="file" id="faceImage" accept="image/*" capture="user" required>
+                        <div id="facePreview" class="image-preview"></div>
+                    </div>
+
+                    <!-- ID Document Upload -->
+                    <div class="upload-section">
+                        <label for="idDocument" class="upload-label">
+                            <div class="upload-icon">🪪</div>
+                            <div class="upload-text">
+                                <strong>Upload ID Document</strong>
+                                <span>Government-issued ID card</span>
+                            </div>
+                        </label>
+                        <input type="file" id="idDocument" accept="image/*" capture="environment" required>
+                        <div id="idPreview" class="image-preview"></div>
+                    </div>
+
+                    <!-- Device ID (hidden) -->
+                    <input type="hidden" id="deviceId" value="">
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="verifyButton" class="verify-button">
+                        <span id="buttonText">Verify Identity</span>
+                        <span id="buttonLoader" class="loader" style="display: none;"></span>
+                    </button>
+                </form>
+
+                <!-- Result Display -->
+                <div id="resultSection" class="result-section" style="display: none;">
+                    <div id="resultContent"></div>
+                </div>
+
+                <!-- Fallback Options -->
+                <div id="fallbackSection" class="fallback-section" style="display: none;">
+                    <h3>Alternative Verification Methods</h3>
+                    <p>Biometric verification failed. Please choose an alternative method:</p>
+                    <div class="fallback-buttons">
+                        <button class="fallback-button" onclick="showPINVerification()">
+                            🔢 Verify with PIN
+                        </button>
+                        <button class="fallback-button" onclick="showOTPVerification()">
+                            📱 Verify with OTP
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy Notice -->
+            <div class="privacy-notice">
+                <p>🔒 <strong>Privacy Protected:</strong> Your biometric data is processed locally on your device and encrypted before transmission. We never store raw biometric images.</p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by AWS AI Services | Edge-First Architecture</p>
+            <p class="footer-links">
+                <a href="#privacy">Privacy Policy</a> |
+                <a href="#terms">Terms of Service</a> |
+                <a href="#help">Help</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- PIN Verification Modal -->
+    <div id="pinModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closePINModal()">&times;</span>
+            <h2>PIN Verification</h2>
+            <p>Enter your 6-digit PIN</p>
+            <input type="password" id="pinInput" maxlength="6" pattern="[0-9]{6}" placeholder="000000">
+            <button onclick="verifyPIN()" class="verify-button">Verify PIN</button>
+        </div>
+    </div>
+
+    <!-- OTP Verification Modal -->
+    <div id="otpModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeOTPModal()">&times;</span>
+            <h2>OTP Verification</h2>
+            <p>Enter your phone number to receive OTP</p>
+            <input type="tel" id="phoneInput" placeholder="+1234567890">
+            <button onclick="requestOTP()" class="verify-button">Send OTP</button>
+            
+            <div id="otpInputSection" style="display: none; margin-top: 20px;">
+                <p>Enter the 6-digit OTP sent to your phone</p>
+                <input type="text" id="otpInput" maxlength="6" pattern="[0-9]{6}" placeholder="000000">
+                <button onclick="verifyOTP()" class="verify-button">Verify OTP</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

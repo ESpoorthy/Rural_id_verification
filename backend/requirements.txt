@@ -1,0 +1,41 @@
+# RuralGuard AI - Backend Dependencies
+
+# Web Framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6
+
+# AWS SDK
+boto3>=1.29.0
+botocore>=1.32.0
+
+# Data Processing
+pydantic>=2.0.0
+python-jose[cryptography]>=3.3.0
+
+# Image Processing
+Pillow>=10.0.0
+opencv-python>=4.8.0
+numpy>=1.24.0
+
+# Security & Encryption
+cryptography>=41.0.0
+python-dotenv>=1.0.0
+
+# Database
+aioboto3>=12.0.0
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+httpx>=0.25.0
+
+# Utilities
+python-dateutil>=2.8.2
+pytz>=2023.3
+
+# Development
+black>=23.7.0
+flake8>=6.0.0
+mypy>=1.5.0
