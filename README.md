@@ -333,7 +333,7 @@ See [architecture/system-overview.md](architecture/system-overview.md) for detai
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/ruralguard-ai.git
+git clone https://github.com/ESpoorthy/Rural_id_verification.git
 cd ruralguard-ai
 ```
 
@@ -345,8 +345,7 @@ pip install -r requirements.txt
 
 3. **Set up environment variables**
 ```bash
-cp .env.example .env
-# Edit .env with your AWS credentials and configuration
+cp .env
 ```
 
 4. **Run the backend API locally**
