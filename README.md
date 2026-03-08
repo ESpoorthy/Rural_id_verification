@@ -386,8 +386,8 @@ python -m pytest tests/ --cov=rural_identity_verification --cov-report=html
 
 ##  Demo
 
-- **Demo Video**: [Watch on YouTube](#) *(Coming Soon)*
-- **Live MVP**: [https://ruralguard-ai-demo.aws.com](#) *(Coming Soon)*
+- **Demo Video**: https://drive.google.com/file/d/1JjnvjehKvGaIJTjtaV1xmwkMA5wsEPLu/view?usp=sharing
+- **Live MVP**: https://main.d34ttefjam3p7q.amplifyapp.com
 - **Screenshots**: See [demo-assets/screenshots/](demo-assets/screenshots/)
 
 ##  Innovation Highlights
